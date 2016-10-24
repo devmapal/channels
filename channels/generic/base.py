@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 from ..routing import route_class
-from ..sessions import channel_session
+from ..sessions import channel_and_http_session, channel_session
 from ..auth import channel_session_user
 
 
@@ -20,6 +20,7 @@ class BaseConsumer(object):
     method_mapping = {}
     channel_session = False
     channel_session_user = False
+    channel_and_http_session = False
 
     def __init__(self, message, **kwargs):
         """
@@ -59,6 +60,8 @@ class BaseConsumer(object):
             return channel_session_user(handler)
         elif self.channel_session:
             return channel_session(handler)
+        elif self.channel_and_http_session:
+            return channel_and_http_session(handler)
         else:
             return handler
 
